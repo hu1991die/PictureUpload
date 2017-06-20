@@ -30,6 +30,12 @@
       <scope>test</scope>
     </dependency>
 
+    <!--  Spring Boot 依赖 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
     <!--  Spring Boot Web依赖 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -58,6 +64,13 @@
     </dependency>
   </dependencies>
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+
     <finalName>PictureUpload</finalName>
   </build>
 </project>

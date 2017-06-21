@@ -3,10 +3,7 @@ package com.feizi.controller;
 import com.feizi.domain.Picture;
 import com.feizi.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 图片上传Controller控制类
@@ -24,8 +21,13 @@ public class PictureController {
         return pictureService.findPicturebyId(id);
     }
 
-    @RequestMapping(value = "/hello/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(@RequestParam(value = "id", required = true) Integer id){
         return "Hello World!" + id;
+    }
+
+    @RequestMapping(value = "/test/{id}", method = RequestMethod.GET)
+    public String test(@PathVariable Integer id){
+        return "test demo" + id;
     }
 }

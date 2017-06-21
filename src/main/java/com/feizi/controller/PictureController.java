@@ -3,21 +3,28 @@ package com.feizi.controller;
 import com.feizi.domain.Picture;
 import com.feizi.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 图片上传Controller控制类
  * Created by feizi on 2017/6/18.
  */
-@RestController
+@Controller
 @RequestMapping("/api")
 public class PictureController {
 
     @Autowired
     private PictureService pictureService;
 
-    @RequestMapping(value = "/picture", method = RequestMethod.GET)
-    public Picture findPicturebyId(@RequestParam(value = "id", required = true) Integer id){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index(){
+        return "index";
+    }
+
+    @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET)
+    public Picture findPicturebyId(@PathVariable Integer id){
         return pictureService.findPicturebyId(id);
     }
 

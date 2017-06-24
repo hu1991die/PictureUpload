@@ -18,6 +18,8 @@ public class Picture implements Serializable{
     private String picName;
     //图片的分类类型
     private String picType;
+    //图片上传路径
+    private String picUrl;
     //图片的补充说明
     private String picDetails;
     //图片上传日期
@@ -57,6 +59,14 @@ public class Picture implements Serializable{
 
     public void setPicType(String picType) {
         this.picType = picType;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     public String getPicDetails() {

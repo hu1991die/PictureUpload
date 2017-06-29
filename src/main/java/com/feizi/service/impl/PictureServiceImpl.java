@@ -15,10 +15,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-import java.util.logging.FileHandler;
 
 /**
  * 图片上传Service服务接口实现类
@@ -72,7 +71,8 @@ public class PictureServiceImpl implements PictureService{
      */
     private String uploadFile(String imgData, String imgName){
         //文件上传的路径
-        String imgPath = imgSavePath + File.separator + imgName;
+//        String imgPath = imgSavePath + File.separator + imgName;
+        String imgPath = Paths.get(imgSavePath, imgName).toString();
         File file = new File(imgPath);
         if(!file.getParentFile().exists()){
             file.mkdirs();

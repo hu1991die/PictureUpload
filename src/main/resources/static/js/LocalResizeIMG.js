@@ -13,11 +13,12 @@
             var file = this.files[0];
             var URL = URL || webkitURL;
             var blob = URL.createObjectURL(file);
+            var imgName = file.name;
 
             // 执行前函数
             if($.isFunction(obj.before)) { obj.before(this, blob, file) };
 
-            _create(blob, file);
+            _create(blob, file, imgName);
             this.value = '';   // 清空临时数据
         });
 
@@ -25,7 +26,7 @@
          * 生成base64
          * @param blob 通过file获得的二进制
          */
-        function _create(blob) {
+        function _create(blob, file, imgName) {
             var img = new Image();
             img.src = blob;
 
@@ -67,6 +68,7 @@
                 // 生成结果
                 var result = {
                     base64 : base64,
+                    imgName: imgName,
                     clearBase64: base64.substr( base64.indexOf(',') + 1 )
                 };
 

@@ -1,6 +1,7 @@
 package com.feizi.service;
 
 import com.feizi.domain.Picture;
+import com.feizi.domain.dto.PictureDTO;
 
 import java.util.List;
 
@@ -12,14 +13,14 @@ public interface PictureService {
 
     /**
      * 保存上传图片信息
-     * @param imgData
+     * @param pictureDTO
      */
-    void savePicture(String imgData, String picDetails, String picTypes);
+    void savePicture(PictureDTO pictureDTO) throws Exception;
 
     /**
      * 根据id查询图片信息
      * @param id
      * @return
      */
-    Picture findPicturebyId(Integer id);
+    Picture findPicturebyId(Integer id) throws Exception;
 }

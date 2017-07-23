@@ -1,19 +1,22 @@
 package com.feizi.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.feizi.domain.Picture;
+import com.feizi.domain.dto.PictureDTO;
 import com.feizi.service.PictureService;
-import org.codehaus.groovy.runtime.powerassert.SourceText;
+import groovy.util.ObservableMap;
+import org.apache.ibatis.mapping.ResultMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 图片上传Controller控制类
@@ -34,19 +37,24 @@ public class PictureController {
 
     @ResponseBody
     @RequestMapping(value = "/picture/upload", method = RequestMethod.POST)
-    public Map savePicture(@RequestParam("imgData") String imgData,
-                           @RequestParam("picDetails") String picDetails,
-                           @RequestParam("picTypes") String picTypes){
-        Map<String, Object> map = new HashMap<>();
-        if(null == imgData){
-            map.put("msg", "文件为空...");
+    public Map<String, Object> savePicture(@RequestBody PictureDTO pictureDTO){
+        String result = "上传成功...";
+        if(null == pictureDTO ||
+                null == pictureDTO.getImgArr() ||
+                pictureDTO.getImgArr().size() == 0){
+            result = "请选择上传的图片...";
         }
 
-        LOGGER.info("===========上传的图片编码流：" + imgData);
-        pictureService.savePicture(imgData, picDetails, picTypes);
+        try {
+            pictureService.savePicture(pictureDTO);
+        } catch (Exception e) {
+            result = "上传失败...";
+            LOGGER.error(e.getMessage());
+        }
 
-        map.put("msg", "上传成功...");
-        return map;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+        return resultMap;
     }
 
     @ResponseBody

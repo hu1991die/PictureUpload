@@ -130,6 +130,11 @@
             //构造图片对象
             var img = Img(imgData, imgName);
             imgArr.push(img);
+            if(imgArr.length < 3){
+                alert("对不起， 请至少选择3张图片进行上传！");
+                return;
+            }
+
             if(imgArr.length > 9){
                 alert("对不起， 一次性最多只能上传9张图片！");
                 return;

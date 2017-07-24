@@ -1,6 +1,5 @@
 package com.feizi.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.feizi.domain.dto.PictureDTO;
 import com.feizi.service.PictureService;
 
@@ -45,7 +44,7 @@ public class PictureController {
             result = "请选择上传的图片...";
         }
 
-        LOGGER.info("上传的图片数据为pictureDTO: " + JSON.toJSONString(pictureDTO));
+//        LOGGER.info("上传的图片数据为pictureDTO: " + JSON.toJSONString(pictureDTO));
 
         try {
             pictureService.savePicture(pictureDTO);

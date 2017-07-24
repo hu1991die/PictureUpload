@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
     <link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet" />
-    <link th:href="@{css/bootstrap-imgupload.css}"/>
+    <link th:href="@{css/bootstrap-imgupload.css}" />
     <style>
         body {
             padding-top: 10px;
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="checkDiv">
         <div class="row">
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <input type="checkbox" name="pic_type" value="分类1"/>
@@ -119,40 +119,50 @@
 
     //将上传的图片进行本地压缩处理，并且使用canvas呈现出来
     $("#imageFile").localResizeIMG({
-        width: 100,
-        quality: 1,
-        success: function(result){
-            //本地压缩后的图片数据
-            var imgData = result.clearBase64;
-            //上传图片的名称
-            var imgName = result.imgName;
-
-            //构造图片对象
-            var img = Img(imgData, imgName);
-            imgArr.push(img);
-            if(imgArr.length < 3){
-                alert("对不起， 请至少选择3张图片进行上传！");
-                return;
-            }
-
-            if(imgArr.length > 9){
-                alert("对不起， 一次性最多只能上传9张图片！");
-                return;
-            }
-
-            //构造Image对象,在页面上显示出图片
-            var image = new Image();
-            image.src = result.base64;
-            //使用追加的方式在canvas画布上显示图片
-            $("#canvas").append(image);//呈现拍照结果
-            console.log(imgArr);
-        }
+       width: 100,
+       quality: 1,
+       success: function(result){
+           handleUpload(result);
+       }
     });
+
+    function handleUpload(result) {
+        //本地压缩后的图片数据
+        var imgData = result.clearBase64;
+        //上传图片的名称
+        var imgName = result.imgName;
+
+        //构造图片对象
+        var img = Img(imgData, imgName);
+        imgArr.push(img);
+
+        //构造Image对象,在页面上显示出图片
+        var image = new Image();
+        image.src = result.base64;
+        //使用追加的方式在canvas画布上显示图片
+        $("#canvas").append(image);//呈现拍照结果
+        console.log(imgArr);
+    }
+
+    function compare(one, two){
+        return (one - two) > 0;
+    }
 
     //执行上传操作，并且提交到服务器进行处理
     $("#upload").click(function(){
         if(imgArr.length == 0){
             alert("请选择图片...");
+            return;
+        }
+
+        if(compare(3, imgArr.length)){
+            alert("对不起， 请至少选择3张图片进行上传！");
+            return;
+        }
+
+        if(compare(imgArr.length, 9)){
+            alert("对不起， 一次性最多只能上传9张图片！");
+            return;
         }
 
         //图片补充说明
@@ -167,31 +177,29 @@
         var picture = Picture(imgArr, picDetails, picTypes);
 
         $.ajax({
-            url: "/picture/upload",
-            type: "post",
-            data: JSON.stringify(picture),
-            contentType : "application/json; charset=utf-8",
-            dataType : "json",
-            timeout: 1000,
-            beforeSend: function (XMLHttpRequest) {
-
-            },
-            success: function (data, status) {
-                //清空canvas画布图片区（如果要显示多张，这里需要注释掉）
-                $("#canvas").empty();
-
-                alert(data.result);
-                console.log("============上传图片成功..." + data + "status:" + status)
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-
-            },
-            error: function (data) {
-                alert(data.result);
-                console.log("============上传图片失败...")
-            }
+           url: "/picture/upload",
+           type: "post",
+           data: JSON.stringify(picture),
+           contentType : "application/json; charset=utf-8",
+           dataType : "json",
+           timeout: 1000,
+           success: function (data, status) {
+               clear();
+               alert(data.result);
+               console.log("============上传图片成功..." + data + "status:" + status)
+           },
+           error: function (data) {
+               alert(data.result);
+               console.log("============上传图片失败...")
+           }
         });
     });
+
+    function clear(){
+        //清空canvas画布图片区
+        $("#canvas").empty();
+        $("#pic_detail").val('');
+    }
 
     /**
      * 定义picture对象

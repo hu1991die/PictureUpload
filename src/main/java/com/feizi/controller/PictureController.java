@@ -1,9 +1,9 @@
 package com.feizi.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.feizi.domain.dto.PictureDTO;
 import com.feizi.service.PictureService;
-import groovy.util.ObservableMap;
-import org.apache.ibatis.mapping.ResultMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +44,8 @@ public class PictureController {
                 pictureDTO.getImgArr().size() == 0){
             result = "请选择上传的图片...";
         }
+
+        LOGGER.info("上传的图片数据为pictureDTO: " + JSON.toJSONString(pictureDTO));
 
         try {
             pictureService.savePicture(pictureDTO);

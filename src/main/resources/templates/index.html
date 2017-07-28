@@ -42,7 +42,7 @@
     <div class="container-fluid" id="checkDiv">
         <div class="row">
             <div class="col-xs-3 col-sm-3 col-md-3">
-                <input type="checkbox" name="pic_type" value="分类1"/>
+                <input type="checkbox" name="pic_type" value="分类1" />
                 <label>分类1</label>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3">
@@ -144,6 +144,9 @@
         console.log(imgArr);
     }
 
+    /**
+     * 比较大小
+     */
     function compare(one, two){
         return (one - two) > 0;
     }
@@ -195,10 +198,24 @@
         });
     });
 
+    /**
+     * 清除内容
+     */
     function clear(){
         //清空canvas画布图片区
         $("#canvas").empty();
         $("#pic_detail").val('');
+        $("input:checkbox[name='pic_type']:checked").each(function() {
+            clearCheckbox($(this));
+        });
+    }
+
+    /**
+     * 清除checkbox的选中状态
+     */
+    function clearCheckbox(checkbox){
+        checkbox.removeAttr("checked");
+        checkbox.prop("checked", false);
     }
 
     /**

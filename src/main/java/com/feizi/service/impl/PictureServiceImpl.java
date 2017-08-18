@@ -6,15 +6,14 @@ import com.feizi.domain.dto.ImgDTO;
 import com.feizi.domain.dto.PictureDTO;
 import com.feizi.service.PictureService;
 import com.feizi.utils.DateUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import sun.misc.BASE64Decoder;
 
-import javax.annotation.Resource;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -22,7 +21,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 
 /**
  * 图片上传Service服务接口实现类
@@ -89,7 +90,7 @@ public class PictureServiceImpl implements PictureService{
         //构建文件上传的路径目录
         String directory = Paths.get(imgSavePath, currentDate).toString();
         File file = new File(directory);
-        if(!file.getParentFile().exists()){
+        if(!file.exists()){
             file.mkdirs();
         }
 
